@@ -48,7 +48,7 @@ class PDFtoWordGUI:
             defaultextension=".docx", filetypes=[("Word Files", "*.docx")]
         ):
             converter = PDFtoWordConverter()
-            converter.convert_pdf_to_word(file_path, save_path)
+            converter.convert_file(file_path, save_path)
             self.display_success_message(save_path)
 
     def display_success_message(self, save_path) -> None:
