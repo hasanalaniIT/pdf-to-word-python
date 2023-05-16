@@ -7,6 +7,7 @@ import subprocess
 
 
 class PDFtoWordGUI:
+    """Responsible for handling all the events in GUI and connecting it with the service."""
     def __init__(self, root):
         self.root = root
         self.root.title("PDF to Docx")
@@ -34,13 +35,15 @@ class PDFtoWordGUI:
         )
         self.button.pack()
 
-    def add_file(self):
+    def add_file(self) -> None:
+        """Opens a file selection window"""
         if file_path := filedialog.askopenfilename(
             initialdir="/", title="Select file"
         ):
             self.convert_file(file_path)
 
-    def convert_file(self, file_path):
+    def convert_file(self, file_path) -> None:
+        """Saves the file in a directory that the user selects and calls the conversion service."""
         if save_path := filedialog.asksaveasfilename(
             defaultextension=".docx", filetypes=[("Word Files", "*.docx")]
         ):
@@ -48,7 +51,8 @@ class PDFtoWordGUI:
             converter.convert_pdf_to_word(file_path, save_path)
             self.display_success_message(save_path)
 
-    def display_success_message(self, save_path):
+    def display_success_message(self, save_path) -> None:
+        """Displays a success message and a button to open the converted file in word application."""
         success_text = tk.Label(
             self.frame,
             text="PDF has been successfully converted",
@@ -70,7 +74,9 @@ class PDFtoWordGUI:
         )
         open_button.pack()
 
-    def open_file(self, file_path):
+    @staticmethod
+    def open_file(file_path) -> None:
+        """Opens a file in word application."""
         if file_path:
             try:
                 subprocess.run(["start", "", file_path], shell=True)  # Open the file with the default associated application
