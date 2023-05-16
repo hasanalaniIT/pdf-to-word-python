@@ -3,6 +3,7 @@ import tkinter.font as font
 from tkinter import filedialog
 from pdf_to_word import PDFtoWordConverter
 from tkinter import ttk
+import subprocess
 
 
 class PDFtoWordGUI:
@@ -23,10 +24,10 @@ class PDFtoWordGUI:
         button_font = font.Font(size=30)
         self.button = tk.Button(
             self.frame,
-            text="OPEN FILE",
-            padx=500,
-            pady=50,
-            bg="#ff2200",
+            text="OPEN PDF FILE",
+            padx=20,
+            pady=10,
+            bg="#Aa0808",
             fg="#fff",
             command=self.add_file,
             font=button_font,
@@ -45,9 +46,9 @@ class PDFtoWordGUI:
         ):
             converter = PDFtoWordConverter()
             converter.convert_pdf_to_word(file_path, save_path)
-            self.display_success_message()
+            self.display_success_message(save_path)
 
-    def display_success_message(self):
+    def display_success_message(self, save_path):
         success_text = tk.Label(
             self.frame,
             text="PDF has been successfully converted",
@@ -56,6 +57,25 @@ class PDFtoWordGUI:
             fg="#000000",
         )
         success_text.pack()
+
+        open_button = tk.Button(
+            self.frame,
+            text="OPEN CONVERTED WORD FILE",
+            padx=20,
+            pady=10,
+            bg="#075896",
+            fg="#fff",
+            command=lambda: self.open_file(save_path),
+            font=font.Font(size=12),
+        )
+        open_button.pack()
+
+    def open_file(self, file_path):
+        if file_path:
+            try:
+                subprocess.run(["start", "", file_path], shell=True)  # Open the file with the default associated application
+            except Exception as e:
+                print("Failed to open the file:", e)
 
 
 if __name__ == "__main__":
