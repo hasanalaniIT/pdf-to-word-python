@@ -1,3 +1,4 @@
+import platform
 import tkinter as tk
 import tkinter.font as font
 from tkinter import filedialog
@@ -11,12 +12,11 @@ class PDFtoWordGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("PDF to Docx")
-        self.root.configure(bg="#FFFFFF")  # Set background color for the root window
+        self.root.configure(bg="#FFFFFF")
 
         style = ttk.Style(root)
-        style.theme_use('clam')  # Set the ttk theme to 'clam' (or any other theme of your choice)
-
-        self.canvas = tk.Canvas(self.root, height=500, width=700, bg="#FFFFFF")  # Set background color for the canvas
+        style.theme_use('clam')
+        self.canvas = tk.Canvas(self.root, height=500, width=700, bg="#FFFFFF")
         self.canvas.pack()
 
         self.frame = tk.Frame(self.root, bg="#FFFFFF")
@@ -61,6 +61,14 @@ class PDFtoWordGUI:
             fg="#000000",
         )
         success_text.pack()
+        success_text = tk.Label(
+            self.frame,
+            text=f"{save_path.split('/')[-1]}",
+            font=("Arial", 18),
+            bg="#FFFFFF",
+            fg="#000000",
+        )
+        success_text.pack()
 
         open_button = tk.Button(
             self.frame,
@@ -76,12 +84,18 @@ class PDFtoWordGUI:
 
     @staticmethod
     def open_file(file_path) -> None:
-        """Opens a file in word application."""
-        if file_path:
+        if platform.system() == "Darwin":  # this to open word on macOS
             try:
-                subprocess.run(["start", "", file_path], shell=True)  # Open the file with the default associated application
-            except Exception as e:
-                print("Failed to open the file:", e)
+                subprocess.run(["open", file_path])
+            except Exception as exp:
+                print("Failed to open the file:", exp)
+        elif platform.system() == "Windows":
+            try:
+                subprocess.run(["start", "", file_path], shell=True)
+            except Exception as exp:
+                print("Failed to open the file:", exp)
+        else:
+            print("Opening the file is not supported on this platform.")
 
 
 if __name__ == "__main__":
