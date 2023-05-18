@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 pdf2docx = "*"
+pipenv = "*"
 
 [dev-packages]
 
