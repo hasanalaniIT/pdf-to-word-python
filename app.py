@@ -11,12 +11,11 @@ class PDFtoWordGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("PDF to Docx")
-        self.root.configure(bg="#FFFFFF")  # Set background color for the root window
+        self.root.configure(bg="#FFFFFF")
 
         style = ttk.Style(root)
-        style.theme_use('clam')  # Set the ttk theme to 'clam' (or any other theme of your choice)
-
-        self.canvas = tk.Canvas(self.root, height=500, width=700, bg="#FFFFFF")  # Set background color for the canvas
+        style.theme_use('clam')
+        self.canvas = tk.Canvas(self.root, height=500, width=700, bg="#FFFFFF")
         self.canvas.pack()
 
         self.frame = tk.Frame(self.root, bg="#FFFFFF")
@@ -57,6 +56,14 @@ class PDFtoWordGUI:
             self.frame,
             text="PDF has been successfully converted",
             font=("Arial", 16),
+            bg="#FFFFFF",
+            fg="#000000",
+        )
+        success_text.pack()
+        success_text = tk.Label(
+            self.frame,
+            text=f"{save_path.split('/')[-1]}",
+            font=("Arial", 18),
             bg="#FFFFFF",
             fg="#000000",
         )
