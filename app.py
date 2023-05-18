@@ -1,3 +1,4 @@
+import platform
 import tkinter as tk
 import tkinter.font as font
 from tkinter import filedialog
@@ -83,12 +84,18 @@ class PDFtoWordGUI:
 
     @staticmethod
     def open_file(file_path) -> None:
-        """Opens a file in word application."""
-        if file_path:
+        if platform.system() == "Darwin":  # this to open word on macOS
             try:
-                subprocess.run(["start", "", file_path], shell=True)  # Open the file with the default associated application
-            except Exception as e:
-                print("Failed to open the file:", e)
+                subprocess.run(["open", file_path])
+            except Exception as exp:
+                print("Failed to open the file:", exp)
+        elif platform.system() == "Windows":
+            try:
+                subprocess.run(["start", "", file_path], shell=True)
+            except Exception as exp:
+                print("Failed to open the file:", exp)
+        else:
+            print("Opening the file is not supported on this platform.")
 
 
 if __name__ == "__main__":
